@@ -1,0 +1,100 @@
+#1
+for league in League.objects.filter(name__contains='baseball'):
+    print(league.name)
+#2
+for league in League.objects.filter(name__contains='women'):
+    print(league.name)
+#3
+for league in League.objects.filter(sport__contains='hockey'):
+    print(league.name)
+#4
+for league in League.objects.exclude(sport__contains='football'):
+    print(league.name)
+#5
+for league in League.objects.filter(name__contains='conference'):
+    print(league.name)    
+#6
+for league in League.objects.filter(name__contains='atlantic'):
+    print(league.name)
+#7
+for team in Team.objects.filter(location='Dallas'):
+    print(team.location+" "+team.team_name)
+#8
+for team in Team.objects.filter(team_name__contains='Raptors'):
+    print(team.location+" "+team.team_name)
+#9
+for team in Team.objects.filter(location__contains='city'):
+    print(team.location+" "+team.team_name)
+#10    
+for team in Team.objects.filter(team_name__startswith='T'):
+    print(team.location+" "+team.team_name)
+#11
+for team in Team.objects.order_by('location'):
+    print(team.location+" "+team.team_name)
+#12
+for team in Team.objects.order_by('-team_name'):
+    print(team.location+" "+team.team_name)
+#13
+for player in Player.objects.filter(last_name='Cooper'):
+    print(player.first_name+" "+player.last_name)
+#14
+for player in Player.objects.filter(first_name='Joshua'):
+    print(player.first_name+" "+player.last_name)
+#15
+for player in Player.objects.filter(last_name='Cooper').exclude(first_name="Joshua"):
+    print(player.first_name+" "+player.last_name)
+#16
+from django.db.models import Q
+for player in Player.objects.filter(Q(first_name="Alexander") | Q(first_name="Wyatt")):
+    print(player.first_name+" "+player.last_name)
+
+####Part two
+#01
+for team in Team.objects.filter(league__name='Atlantic Soccer Conference'):
+    print(team.location+" "+team.team_name)
+#02
+for player in Player.objects.filter(curr_team__team_name='Penguins'):
+    print(player.first_name+" "+player.last_name)
+#03
+for player in Player.objects.filter(curr_team__league__name='International Collegiate Baseball Conference'):
+    print(player.first_name+" "+player.last_name)
+#04
+for player in Player.objects.filter(curr_team__league__name='American Conference of Amateur Football').filter(last_name='Lopez'):
+    print(player.first_name+" "+player.last_name)
+#05
+for player in Player.objects.filter(curr_team__league__sport='Football'):
+    print(player.first_name+" "+player.last_name)
+#06
+for team in Team.objects.filter(curr_players__first_name='Sophia'):
+    print(team.location+" "+team.team_name)
+#07
+for league in League.objects.filter(teams__curr_players__first_name='Sophia'):
+    print(league.name)
+#08
+for player in Player.objects.filter(last_name="Flores").exclude(curr_team__team_name="Roughriders",curr_team__location="Washington"):
+    print(player.first_name+" "+player.last_name)
+#09
+for team in Team.objects.filter(all_players__first_name="Samuel",all_players__last_name="Evans"):
+    print(team.location+" "+team.team_name)
+#10
+for player in Player.objects.filter(all_teams__team_name='Tiger-Cats', all_teams__location='Manitoba'):
+    print(player.first_name+" "+player.last_name)
+#11
+for player in Player.objects.filter(all_teams__team_name='Vikings', all_teams__location='Wichita').exclude(curr_team__team_name='Vikings', curr_team__location='Wichita'):
+    print(player.first_name+" "+player.last_name)
+#12
+for team in Team.objects.filter(all_players__first_name='Jacob', all_players__last_name='Gray').exclude(team_name='Colts', location='Oregon'):
+    print(team.location+" "+team.team_name)
+#13
+for player in Player.objects.filter(first_name="Joshua").filter(all_teams__league__name="Atlantic Federation of Amateur Baseball Players"):
+    print(player.first_name+" "+player.last_name)
+#14
+from django.db.models import Count
+
+for team in Team.objects.annotate(num_players=Count('all_players')).filter(num_players__gt=12):
+    print(team.location+" "+team.team_name)
+#15
+for player in Player.objects.annotate(num_teams=Count('all_teams')).order_by('-num_teams'):
+    print(player.first_name+" "+player.last_name, player.num_teams)
+
+

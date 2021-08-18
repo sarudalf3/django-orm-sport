@@ -6,7 +6,7 @@ The relationship is among legaues, teams and players, using reversing, filter, e
 **This is an exercise of full-Stack Python Bootcamp offered by coding dojo**
 ##### *keep trying, knowledge is awesome*  :facepunch:
 
-##### Instructions from Coding Dojo
+## Instructions from Coding Dojo
 
 ### Clone this repo for the CodingDojo Sports ORM assignments in the Django Level 2 curriculum.
 
